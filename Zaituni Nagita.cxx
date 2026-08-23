@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Surprise!</title>
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #feada6 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    /* Interactive Overlay to Bypass Browser Autoplay Block */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      cursor: pointer;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+
+    .open-btn {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 18px 36px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 50px;
+      box-shadow: 0 10px 25px rgba(255, 64, 129, 0.5);
+      animation: pulse 1.5s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    /* Main Container Card */
+    #surprise-card {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+      max-width: 500px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    #surprise-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-frame img {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin: 20px 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      color: #d81b60;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TAP TO UNLOCK OVERLAY -->
+  <div id="overlay" onclick="launchSurprise()">
+    <button class="open-btn">🎁 Tap to Open Your Surprise!</button>
+  </div>
+
+  <!-- SURPRISE CARD CONTENT -->
+  <div id="surprise-card">
+    <h1>Happy Birthday! ✨</h1>
+    
+    <!-- Photo element (ensure Test.jpg is in your repository) -->
+    <div class="photo-frame">
+      <img src="Test.jpg" alt="Special Moment">
+    </div>
+    
+    <p>Wishing you the happiest day filled with love, joy, and bright smiles! ❤️</p>
+  </div>
+
+  <!-- AUDIO ELEMENT (Replace music.mp3 with your audio filename or direct URL) -->
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function launchSurprise() {
+      // 1. Hide Overlay
+      const overlay = document.getElementById('overlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.visibility = 'hidden', 800);
+
+      // 2. Reveal Content
+      document.getElementById('surprise-card').classList.add('visible');
+
+      // 3. Play Background Music
+      const music = document.getElementById('bg-music');
+      music.play().catch(err => console.log("Audio playback error:", err));
+
+      // 4. Initial Confetti Explosion
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // 5. Continuous Floating Fireworks & Confetti Streams
+      const duration = 15 * 1000; // Plays for 15 seconds
+      const animationEnd = Date.now() + duration;
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        
+        // Random side bursts
+        confetti({
+          particleCount: particleCount,
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+      }, 750);
+    }
+  </script>
+</body>
+</html>
