@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Special Surprise!</title>
+  <title>🎂 A Special Surprise For Zaituni Nagita! 🎂</title>
   
   <!-- Canvas Confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -17,7 +17,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #feada6 100%);
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #feada6 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -33,7 +33,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -42,114 +42,368 @@
       z-index: 999;
       cursor: pointer;
       transition: opacity 0.8s ease, visibility 0.8s;
+      padding: 20px;
+    }
+
+    #overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .overlay-content {
+      text-align: center;
+      animation: slideDown 0.8s ease;
+    }
+
+    .overlay-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #ffeb3b;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .recipient-name {
+      font-size: 2rem;
+      color: #ff69b4;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 105, 180, 0.5);
+      }
+      50% {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 105, 180, 0.8);
+      }
+    }
+
+    .overlay-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #fff;
     }
 
     .open-btn {
-      background: #ff4081;
+      background: linear-gradient(135deg, #ff4081, #f50057);
       color: white;
       border: none;
-      padding: 18px 36px;
-      font-size: 1.3rem;
+      padding: 18px 50px;
+      font-size: 1.4rem;
       font-weight: bold;
       border-radius: 50px;
-      box-shadow: 0 10px 25px rgba(255, 64, 129, 0.5);
+      box-shadow: 0 10px 30px rgba(255, 64, 129, 0.6);
       animation: pulse 1.5s infinite;
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .open-btn:hover {
+      transform: scale(1.1);
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      50% { transform: scale(1.1); }
       100% { transform: scale(1); }
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     /* Main Container Card */
     #surprise-card {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(30px) scale(0.9);
       transition: all 1s ease;
-      max-width: 500px;
-      width: 90%;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      max-width: 550px;
+      width: 95%;
+      background: rgba(255, 255, 255, 0.98);
+      padding: 40px;
+      border-radius: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 3px solid #ff4081;
     }
 
     #surprise-card.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+    }
+
+    .balloons {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 50px;
+      border-radius: 50% 50% 50% 0;
+      opacity: 0;
+      animation: float 6s ease-in forwards;
+    }
+
+    @keyframes float {
+      to {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+      }
+    }
+
+    .photo-frame {
+      position: relative;
+      margin: 25px 0;
+      overflow: hidden;
+      border-radius: 20px;
     }
 
     .photo-frame img {
       width: 100%;
-      max-height: 350px;
+      height: 350px;
       object-fit: cover;
       border-radius: 15px;
-      margin: 20px 0;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 25px rgba(255, 64, 129, 0.3);
+      transition: transform 0.5s ease;
+    }
+
+    .photo-frame img:hover {
+      transform: scale(1.05);
+    }
+
+    .photo-loading {
+      width: 100%;
+      height: 350px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     h1 {
       color: #d81b60;
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      animation: slideDown 0.8s ease 0.3s backwards;
+    }
+
+    .subtitle {
+      color: #ff6090;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      font-weight: 500;
+      animation: slideDown 0.8s ease 0.5s backwards;
     }
 
     p {
-      color: #444;
+      color: #555;
       font-size: 1.1rem;
-      line-height: 1.6;
+      line-height: 1.8;
+      margin: 20px 0;
+      animation: slideDown 0.8s ease 0.7s backwards;
+    }
+
+    .special-message {
+      background: linear-gradient(135deg, #ffe0e6, #fff0f3);
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      border-left: 5px solid #ff4081;
+      animation: slideDown 0.8s ease 0.9s backwards;
+    }
+
+    .special-message strong {
+      color: #d81b60;
+      font-size: 1.2rem;
+    }
+
+    .emoji-float {
+      font-size: 3rem;
+      margin: 10px;
+      display: inline-block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .music-status {
+      font-size: 0.9rem;
+      color: #999;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .recipient-name {
+        font-size: 1.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+
+      #surprise-card {
+        padding: 25px;
+        border-radius: 20px;
+      }
+
+      .photo-frame img {
+        height: 250px;
+      }
+
+      .open-btn {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+      }
+
+      .overlay-content h2 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Balloon Container -->
+  <div class="balloons" id="balloonContainer"></div>
+
   <!-- TAP TO UNLOCK OVERLAY -->
   <div id="overlay" onclick="launchSurprise()">
-    <button class="open-btn">🎁 Tap to Open Your Surprise!</button>
+    <div class="overlay-content">
+      <h2>🎉 Surprise Alert! 🎉</h2>
+      <div class="recipient-name">For Zaituni Nagita</div>
+      <p>Someone special has created a birthday surprise for you!</p>
+      <button class="open-btn">✨ Tap to Unlock Your Surprise ✨</button>
+      <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.7;">🎵 Turn on your speakers for the best experience!</p>
+    </div>
   </div>
 
   <!-- SURPRISE CARD CONTENT -->
   <div id="surprise-card">
-    <h1>Happy Birthday! ✨</h1>
+    <h1>🎂 Happy Birthday, Zaituni Nagita! 🎂</h1>
+    <div class="subtitle">You make every moment brighter ✨</div>
     
-    <!-- Photo element (ensure Test.jpg is in your repository) -->
+    <!-- Photo element -->
     <div class="photo-frame">
-      <img src="Test.jpg" alt="Special Moment">
+      <img id="photo" src="Test.jpg" alt="Special Moment" onerror="handlePhotoError()">
+      <div class="photo-loading" id="photoLoading" style="display: none;">Loading your photo...</div>
     </div>
     
-    <p>Wishing you the happiest day filled with love, joy, and bright smiles! ❤️</p>
+    <p>On this special day, we celebrate YOU! 🌟</p>
+    
+    <div class="special-message">
+      <strong>💝 A Special Message 💝</strong>
+      <p style="margin-top: 10px;">Another year older, wiser, and more wonderful! Here's to celebrations, cake, happiness, and all the beautiful moments yet to come. You deserve the best!</p>
+    </div>
+
+    <div class="emoji-float">🎉 🎊 🎈</div>
+
+    <p style="font-size: 1rem; font-weight: 500; color: #d81b60;">With love and warm wishes! 💕</p>
+    
+    <div class="music-status">
+      🎵 Music is playing... Enjoy the celebration!
+    </div>
   </div>
 
-  <!-- AUDIO ELEMENT (Music.mp3 - the uploaded audio file) -->
-  <audio id="bg-music" loop>
+  <!-- AUDIO ELEMENT -->
+  <audio id="bg-music" loop preload="auto">
     <source src="Music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
   </audio>
 
   <script>
+    function handlePhotoError() {
+      document.getElementById('photo').style.display = 'none';
+      document.getElementById('photoLoading').style.display = 'flex';
+      document.getElementById('photoLoading').innerHTML = '❌ Photo not found. Make sure Test.jpg is in the repository.';
+    }
+
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      
+      // Random colors for balloons
+      const colors = ['#FF6B9D', '#FFC75F', '#845EC2', '#00C9A7', '#FF8066'];
+      balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      // Random left position
+      balloon.style.left = Math.random() * 100 + '%';
+      balloon.style.bottom = '-60px';
+      balloon.style.animationDelay = Math.random() * 0.5 + 's';
+      
+      document.getElementById('balloonContainer').appendChild(balloon);
+      
+      // Remove balloon after animation
+      setTimeout(() => balloon.remove(), 6000);
+    }
+
     function launchSurprise() {
       // 1. Hide Overlay
       const overlay = document.getElementById('overlay');
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.visibility = 'hidden', 800);
+      overlay.classList.add('hidden');
 
       // 2. Reveal Content
-      document.getElementById('surprise-card').classList.add('visible');
+      setTimeout(() => {
+        document.getElementById('surprise-card').classList.add('visible');
+      }, 100);
 
       // 3. Play Background Music
       const music = document.getElementById('bg-music');
-      music.play().catch(err => console.log("Audio playback error:", err));
-
-      // 4. Initial Confetti Explosion
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
+      music.play().catch(err => {
+        console.log("Audio playback error:", err);
+        console.log("Note: Some browsers require user interaction to play audio.");
       });
 
-      // 5. Continuous Floating Fireworks & Confetti Streams
-      const duration = 15 * 1000; // Plays for 15 seconds
+      // 4. Create floating balloons
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => createBalloon(), i * 300);
+      }
+
+      // 5. Initial Confetti Explosion
+      setTimeout(() => {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }, 300);
+
+      // 6. Continuous Confetti Bursts
+      const duration = 20 * 1000; // 20 seconds
       const animationEnd = Date.now() + duration;
 
       const interval = setInterval(function() {
@@ -159,9 +413,9 @@
           return clearInterval(interval);
         }
 
-        const particleCount = 50 * (timeLeft / duration);
+        const particleCount = 80 * (timeLeft / duration);
         
-        // Random side bursts
+        // Random confetti bursts
         confetti({
           particleCount: particleCount,
           startVelocity: 30,
@@ -169,8 +423,16 @@
           ticks: 60,
           origin: { x: Math.random(), y: Math.random() - 0.2 }
         });
-      }, 750);
+      }, 500);
     }
+
+    // Optional: Auto-play after 2 seconds on desktop
+    // Uncomment if you want it to auto-start (mobile requires user interaction)
+    // setTimeout(() => {
+    //   if (window.innerWidth > 768) {
+    //     document.getElementById('overlay').click();
+    //   }
+    // }, 2000);
   </script>
 </body>
 </html>
