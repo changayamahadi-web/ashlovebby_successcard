@@ -515,62 +515,62 @@
   </audio>
 
   <script>
-        // PASSCODE GATEKEEPER
     document.addEventListener('DOMContentLoaded', () => {
       const unlockBtn = document.querySelector('.unlock-btn');
+      const passcodeInput = document.getElementById('passcodeInput');
+
       if (unlockBtn) {
         unlockBtn.addEventListener('click', verifyAccess);
       }
+
+      if (passcodeInput) {
+        passcodeInput.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            verifyAccess();
+          }
+        });
+      }
+
+      updateSlide();
+      startCountdown();
     });
 
     function verifyAccess() {
       const inputField = document.getElementById('passcodeInput');
-      const input = inputField ? inputField.value.trim() : "";
+      const input = inputField ? inputField.value.trim() : '';
       const errorMsg = document.getElementById('passcodeError');
-      
-      if (input === "2005ashlovebby") {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        
-        // Play Audio
+
+      if (input === '2005ashlovebby') {
+        const overlay = document.getElementById('overlay');
+        const mainContent = document.getElementById('mainContent');
+
+        if (overlay) overlay.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'block';
+
         const music = document.getElementById('bg-music');
-        if (music) music.play().catch(e => console.log("Audio waiting for user gesture", e));
-        
-        // Launch Confetti
+        if (music) music.play().catch((e) => console.log('Audio waiting for user gesture', e));
+
         if (typeof confetti === 'function') {
           confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
         }
-        
-        // Spawn Floating Balloons
+
         createBalloons();
       } else {
         if (errorMsg) {
-          errorMsg.innerText = "Access Denied: Incorrect passcode. Only Ashlove bby can enter! 🔒";
+          errorMsg.innerText = 'Access Denied: Incorrect passcode. Only Ashlove bby can enter! 🔒';
           errorMsg.style.display = 'block';
         }
       }
     }
 
-        // Play Audio
-        const music = document.getElementById('bg-music');
-        if (music) music.play().catch(e => console.log("Audio waiting for user gesture", e));
-        
-        // Launch Confetti
-        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-        
-        // Spawn Floating Balloons
-        createBalloons();
-      } else {
-        errorMsg.innerText = "Access Denied: Incorrect passcode. Only Ashlove bby can enter! 🔒";
-        errorMsg.style.display = 'block';
-      }
-    }
-
-    // AUDIO CONTROLLER
     let isPlaying = true;
+
     function toggleAudio() {
       const music = document.getElementById('bg-music');
       const btn = document.getElementById('audioToggle');
+
+      if (!music || !btn) return;
+
       if (isPlaying) {
         music.pause();
         btn.innerHTML = '<i class="fa-solid fa-play"></i>';
@@ -578,15 +578,110 @@
         music.play();
         btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
       }
+
       isPlaying = !isPlaying;
     }
 
-    // GALLERY SLIDER LOGIC
     let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
+    const slides = Array.from(document.querySelectorAll('.slide'));
     const totalSlides = slides.length;
 
     function updateSlide() {
       const wrapper = document.getElementById('slideWrapper');
-      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-      doc
+      const counter = document.getElementById('slideCounter');
+
+      if (wrapper) {
+        wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      if (counter && totalSlides > 0) {
+        counter.textContent = `${currentSlide + 1} of ${totalSlides}`;
+      }
+    }
+
+    function prevSlide() {
+      if (totalSlides === 0) return;
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlide();
+    }
+
+    function nextSlide() {
+      if (totalSlides === 0) return;
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlide();
+    }
+
+    function toggleLetter() {
+      const modal = document.getElementById('letterModal');
+      if (!modal) return;
+      modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function drawDailyNote() {
+      const notes = [
+        'You are already stronger than the pressure in front of you. Keep going.',
+        'One paper at a time. One deep breath at a time. You’ve got this.',
+        'Your mind is prepared. Your heart is calm. Your future is bright.',
+        'Aisha, the work is done. Now trust yourself and finish with confidence.',
+        'You are not behind. You are becoming the brilliant lawyer you are meant to be.'
+      ];
+
+      const noteEl = document.getElementById('jarNote');
+      if (!noteEl) return;
+
+      const randomNote = notes[Math.floor(Math.random() * notes.length)];
+      noteEl.textContent = randomNote;
+      noteEl.style.display = 'block';
+    }
+
+    function createBalloons() {
+      const colors = ['#d4af37', '#f3e5ab', '#b76e79', '#1e3a8a', '#991b1b'];
+
+      for (let i = 0; i < 14; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = `${Math.random() * 100}%`;
+        balloon.style.bottom = '-40px';
+        balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.animationDelay = `${i * 0.2}s`;
+        balloon.style.transform = `scale(${0.7 + Math.random() * 0.8})`;
+        document.body.appendChild(balloon);
+
+        setTimeout(() => {
+          balloon.remove();
+        }, 12000);
+      }
+    }
+
+    function startCountdown() {
+      const targetDate = new Date('2026-11-15T00:00:00');
+
+      function updateClock() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          document.getElementById('days').textContent = '00';
+          document.getElementById('hours').textContent = '00';
+          document.getElementById('mins').textContent = '00';
+          document.getElementById('secs').textContent = '00';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('mins').textContent = String(mins).padStart(2, '0');
+        document.getElementById('secs').textContent = String(secs).padStart(2, '0');
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+  </script>
+</body>
+</html>
