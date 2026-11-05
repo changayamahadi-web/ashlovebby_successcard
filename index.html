@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Good Luck Future Counsel Aisha | UACE 2026</title>
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #07080c;
+      --card-bg: rgba(18, 20, 29, 0.92);
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-glow: rgba(212, 175, 55, 0.4);
+      --royal-blue: #1e3a8a;
+      --crimson: #991b1b;
+      --emerald: #065f46;
+      --rose-gold: #b76e79;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Multi-color ambient background glow */
+    .ambient-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+      animation: floatGlow 15s infinite alternate ease-in-out;
+    }
+    .glow-1 { top: -100px; left: -100px; background: var(--royal-blue); }
+    .glow-2 { bottom: -100px; right: -100px; background: var(--crimson); }
+    .glow-3 { top: 40%; left: 50%; transform: translate(-50%, -50%); background: var(--gold-primary); }
+
+    @keyframes floatGlow {
+      0% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.2) translate(30px, -20px); }
+      100% { transform: scale(0.9) translate(-20px, 40px); }
+    }
+
+    /* GATEKEEPER PASSCODE OVERLAY */
+    #overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(7, 8, 12, 0.97);
+      backdrop-filter: blur(15px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 99999;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .passcode-card {
+      background: rgba(20, 22, 34, 0.95);
+      border: 2px solid var(--gold-primary);
+      border-radius: 20px;
+      padding: 35px 25px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 0 30px var(--gold-glow);
+    }
+
+    .passcode-card h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-primary);
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .passcode-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 50px;
+      border: 1.5px solid var(--gold-primary);
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    .unlock-btn {
+      background: linear-gradient(135deg, var(--gold-primary), #b38728);
+      color: #000;
+      border: none;
+      padding: 14px 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #passcodeError {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* MAIN APP CONTAINER */
+    #mainContent {
+      display: none;
+      position: relative;
+      z-index: 10;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px 15px 80px 15px;
+    }
+
+    /* AUDIO CONTROLLER BAR */
+    .audio-bar {
+      background: rgba(18, 20, 29, 0.85);
+      border: 1px solid var(--gold-primary);
+      border-radius: 50px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    .audio-info { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--gold-light); }
+    .audio-btn {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* COUNTDOWN BANNER */
+    .countdown-card {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(7, 8, 12, 0.8));
+      border: 1px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .countdown-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-light); margin-bottom: 8px; }
+    .timer-grid { display: flex; justify-content: center; gap: 15px; }
+    .time-box span { font-size: 1.4rem; font-weight: 700; color: #fff; display: block; }
+    .time-box label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+
+    /* HEADER TITLE */
+    .header-section { text-align: center; margin-bottom: 25px; }
+    .header-section h1 {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--rose-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+    .subtitle { font-family: 'Great Vibes', cursive; font-size: 1.8rem; color: var(--gold-light); margin-top: 5px; }
+
+    /* FOIL BORDER CARD SPEC */
+    .foil-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2px;
+      background-image: linear-gradient(135deg, var(--gold-primary), var(--royal-blue), var(--rose-gold), var(--gold-primary));
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .card-inner {
+      background: #0d0f17;
+      border-radius: 18px;
+      padding: 22px;
+      position: relative;
+    }
+
+    /* PHOTO GALLERY SLIDER */
+    .gallery-container { position: relative; overflow: hidden; border-radius: 15px; }
+    .slide-wrapper { display: flex; transition: transform 0.4s ease-in-out; }
+    .slide { min-width: 100%; box-sizing: border-box; }
+    .slide img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .caption-box {
+      background: rgba(0, 0, 0, 0.75);
+      border-left: 3px solid var(--gold-primary);
+      padding: 10px 15px;
+      margin-top: 10px;
+      border-radius: 0 8px 8px 0;
+    }
+    .caption-title { font-size: 0.95rem; font-weight: 700; color: var(--gold-primary); }
+    .caption-text { font-size: 0.85rem; color: var(--text-muted); }
+
+    .slider-nav {
+      position: absolute;
+      top: 45%; width: 100%;
+      display: flex; justify-content: space-between;
+      padding: 0 10px; transform: translateY(-50%);
+    }
+    .nav-btn {
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--gold-primary);
+      border: 1px solid var(--gold-primary);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* INTERACTIVE ENVELOPE */
+    .envelope-box {
+      text-align: center;
+      cursor: pointer;
+      padding: 20px;
+      border: 1px dashed var(--gold-primary);
+      border-radius: 15px;
+      background: rgba(212, 175, 55, 0.05);
+      transition: transform 0.3s;
+    }
+    .envelope-box:hover { transform: scale(1.02); }
+    .envelope-icon { font-size: 3rem; color: var(--gold-primary); margin-bottom: 10px; }
+    #letterModal {
+      display: none;
+      background: rgba(13, 15, 23, 0.98);
+      border: 2px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* DAILY JAR */
+    .jar-card { text-align: center; }
+    .jar-btn {
+      background: linear-gradient(135deg, var(--rose-gold), var(--crimson));
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #jarNote {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    /* FLOATING POPPING BALLOONS */
+    .balloon {
+      position: fixed;
+      width: 45px; height: 55px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      cursor: pointer;
+      z-index: 100;
+      animation: floatUp 12s linear infinite;
+    }
+    .balloon::after {
+      content: ""; position: absolute; bottom: -8px; left: 50%;
+      width: 2px; height: 15px; background: rgba(255, 255, 255, 0.5);
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0.9; }
+      100% { transform: translateY(-100px) rotate(20deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- GATEKEEPER PASSCODE OVERLAY -->
+  <div id="overlay">
+    <div class="passcode-card">
+      <i class="fa-solid fa-lock-keyhole" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 15px;"></i>
+      <h2>Restricted Access</h2>
+      <p>Enter secret passcode to unlock your UACE Good Luck card, Future Counsel Aisha:</p>
+      <input type="password" id="passcodeInput" class="input-box" placeholder="••••••••••••" onkeyup="if(event.key==='Enter') verifyAccess()">
+      <button class="unlock-btn" onclick="verifyAccess()">Unlock Surprise ✨</button>
+      <div id="passcodeError"></div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="mainContent">
+
+    <!-- AUDIO PLAYER -->
+    <div class="audio-bar">
+      <div class="audio-info">
+        <i class="fa-solid fa-music"></i>
+        <span>Playing Background Music...</span>
+      </div>
+      <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">
+        <i class="fa-solid fa-pause"></i>
+      </button>
+    </div>
+
+    <!-- COUNTDOWN CLOCK -->
+    <div class="countdown-card">
+      <div class="countdown-title">⚖️ Countdown to UACE Victory</div>
+      <div class="timer-grid">
+        <div class="time-box"><span id="days">00</span><label>Days</label></div>
+        <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+        <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+        <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+      </div>
+    </div>
+
+    <!-- HEADER TITLE -->
+    <div class="header-section">
+      <h1>AISHA "ASHLOVE BBY"</h1>
+      <div class="subtitle">To My Future Senior Counsel ⚖️❤️</div>
+    </div>
+
+    <!-- PHOTO GALLERY SLIDER -->
+    <div class="foil-card">
+      <div class="card-inner">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.1rem;">
+            <i class="fa-solid fa-camera-retro"></i> Aisha's Victory Gallery
+          </h3>
+          <span id="slideCounter" style="font-size: 0.8rem; color: var(--text-muted);">1 of 10</span>
+        </div>
+
+        <div class="gallery-container">
+          <div class="slide-wrapper" id="slideWrapper">
+            
+            <!-- Slide 1 -->
+            <div class="slide">
+              <img src="IMG-20261104-WA0008.jpg" alt="Aisha Dimple Selfie">
+              <div class="caption-box">
+                <div class="caption-title">Grace & Dimples</div>
+                <div class="caption-text">That beautiful confidence that's about to conquer UACE!</div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+              <img src="f64d130744924ebb96933609fb321e4a.jpg" alt="Aisha Headscarf">
+              <div class="caption-box">
+                <div class="caption-title">Pure Elegance</div>
+                <div class="caption-text">Studious, calm, and ready to take on the world.</div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+              <img src="ASHLOVEBBY.jpg" alt="Aisha Green Shirt">
+              <div class="caption-box">
+                <div class="caption-title">Bright Energy</div>
+                <div class="caption-text">Your smile brings warmth and peace every single day.</div>
+              </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0009.jpg" alt="Aisha LA Jersey">
+              <div class="caption-box">
+                <div class="caption-title">Playful Style</div>
+                <div class="caption-text">Sharp mind, cool vibes, unbeatable focus.</div>
+              </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0007.jpg" alt="Aisha Classroom Headscarf">
+              <div class="caption-box">
+                <div class="caption-title">Academic Focus</div>
+                <div class="caption-text">All those late study hours in Lit & History pay off now!</div>
+              </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0006.jpg" alt="Aisha Red Dress">
+              <div class="caption-box">
+                <div class="caption-title">Natural Royalty</div>
+                <div class="caption-text">Stunning, intelligent, and destined for legal greatness.</div>
+              </div>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0004.jpg" alt="Aisha Blue Striped Shirt">
+              <div class="caption-box">
+                <div class="caption-title">Poised & Ready</div>
+                <div class="caption-text">Commanding presence and a brilliant legal mind in making.</div>
+              </div>
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0003.jpg" alt="Aisha Outdoors">
+              <div class="caption-box">
+                <div class="caption-title">Unstoppable Drive</div>
+                <div class="caption-text">Step into that briefing room with your head held high!</div>
+              </div>
+            </div>
+
+            <!-- Slide 9 -->
+            <div class="slide">
+              <img src="IMG-20260222-WA0002.jpg" alt="Aisha Cute Pose">
+              <div class="caption-box">
+                <div class="caption-title">My Favourite Person</div>
+                <div class="caption-text">Cheering for you louder than anyone else!</div>
+              </div>
+            </div>
+
+            <!-- Slide 10 -->
+            <div class="slide">
+              <img src="IMG-20260119-WA0005.jpg" alt="Aisha Bonnet Selfie">
+              <div class="caption-box">
+                <div class="caption-title">Future Advocate</div>
+                <div class="caption-text">Law school is waiting for you, Ashlove bby. Go claim it!</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="slider-nav">
+            <button class="nav-btn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-btn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE ENVELOPE CARD -->
+    <div class="foil-card">
+      <div class="card-inner">
+        <div class="envelope-box" onclick="toggleLetter()">
+          <i class="fa-solid fa-envelope-open-text envelope-icon"></i>
+          <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif;">Tap to Open Your UACE Success Letter</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">A personal message for briefing day</p>
+        </div>
+
+        <div id="letterModal">
+          <p style="color: var(--gold-light); font-weight: 700; margin-bottom: 10px;">My Dearest Aisha (Ashlove bby), ❤️</p>
+          <p>As you step into briefing day tomorrow and launch into your UACE exams on Monday, I want you to remember exactly who you are.</p>
+          <br>
+          <p>You have dedicated your time to History and Literature—sharpening your mind, your arguments, and your analytical thinking for your dream of becoming a prominent lawyer. This exam is not something to fear; it is simply the final bridge standing between you and law school!</p>
+          <br>
+          <p>Stay calm, read every paper with composure, and trust your brilliant intellect. I am right here holding your hand in spirit and rooting for you all the way.</p>
+          <br>
+          <p style="text-align: right; font-weight: 700; color: var(--gold-primary);">Always in your corner,<br>With all my love & support ✨</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY ENCOURAGEMENT JAR -->
+    <div class="foil-card">
+      <div class="card-inner jar-card">
+        <i class="fa-solid fa-jar-wheat" style="font-size: 2.2rem; color: var(--rose-gold); margin-bottom: 10px;"></i>
+        <h3 style="font-family: 'Cinzel', serif; color: var(--gold-light);">Daily Exam Note Jar</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Tap every day during exam week for your daily encouragement pop-up!</p>
+        <button class="jar-btn" onclick="drawDailyNote()">Draw Today's Note 💌</button>
+        <div id="jarNote"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="Music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // PASSCODE GATEKEEPER
+    function verifyAccess() {
+      const input = document.getElementById('passcodeInput').value.trim();
+      const errorMsg = document.getElementById('passcodeError');
+      
+      if (input === "2005ashlovebby") {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        
+        // Play Audio
+        const music = document.getElementById('bg-music');
+        if (music) music.play().catch(e => console.log("Audio waiting for user gesture", e));
+        
+        // Launch Confetti
+        confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        
+        // Spawn Floating Balloons
+        createBalloons();
+      } else {
+        errorMsg.innerText = "Access Denied: Incorrect passcode. Only Ashlove bby can enter! 🔒";
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    // AUDIO CONTROLLER
+    let isPlaying = true;
+    function toggleAudio() {
+      const music = document.getElementById('bg-music');
+      const btn = document.getElementById('audioToggle');
+      if (isPlaying) {
+        music.pause();
+        btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      } else {
+        music.play();
+        btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      }
+      isPlaying = !isPlaying;
+    }
+
+    // GALLERY SLIDER LOGIC
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function updateSlide() {
+      const wrapper = document.getElementById('slideWrapper');
+      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      doc
