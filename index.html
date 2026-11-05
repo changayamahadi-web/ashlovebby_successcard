@@ -515,15 +515,42 @@
   </audio>
 
   <script>
-    // PASSCODE GATEKEEPER
+        // PASSCODE GATEKEEPER
+    document.addEventListener('DOMContentLoaded', () => {
+      const unlockBtn = document.querySelector('.unlock-btn');
+      if (unlockBtn) {
+        unlockBtn.addEventListener('click', verifyAccess);
+      }
+    });
+
     function verifyAccess() {
-      const input = document.getElementById('passcodeInput').value.trim();
+      const inputField = document.getElementById('passcodeInput');
+      const input = inputField ? inputField.value.trim() : "";
       const errorMsg = document.getElementById('passcodeError');
       
       if (input === "2005ashlovebby") {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
         
+        // Play Audio
+        const music = document.getElementById('bg-music');
+        if (music) music.play().catch(e => console.log("Audio waiting for user gesture", e));
+        
+        // Launch Confetti
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+        }
+        
+        // Spawn Floating Balloons
+        createBalloons();
+      } else {
+        if (errorMsg) {
+          errorMsg.innerText = "Access Denied: Incorrect passcode. Only Ashlove bby can enter! 🔒";
+          errorMsg.style.display = 'block';
+        }
+      }
+    }
+
         // Play Audio
         const music = document.getElementById('bg-music');
         if (music) music.play().catch(e => console.log("Audio waiting for user gesture", e));
